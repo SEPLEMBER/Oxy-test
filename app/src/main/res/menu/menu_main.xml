@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_open_file"
+        android:title="@string/menu_open_file"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_open_multiple"
+        android:title="@string/menu_open_multiple"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_save_as"
+        android:title="@string/menu_save_as"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_open_folder"
+        android:title="@string/menu_open_folder"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_search_replace"
+        android:title="@string/menu_search_replace"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_compare"
+        android:title="@string/menu_compare"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/menu_settings"
+        app:showAsAction="never" />
+</menu>
