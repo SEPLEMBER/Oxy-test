@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.nemesis.droidcrypt"
+    namespace = "org.syndes.rust"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.nemesis.droidcrypt"
+        applicationId = "org.syndes.rust"
         minSdk = 26
         targetSdk = 34
         versionCode = 2
