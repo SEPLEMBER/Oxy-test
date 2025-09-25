@@ -14,6 +14,7 @@ import kotlinx.coroutines.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
@@ -121,37 +122,36 @@ class BatchReplaceActivity : AppCompatActivity() {
                         BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8)).use { br -> br.readText() }
                     } ?: return
 
-                    val pattern = Pattern.compile(Pattern.quote(findText))
-val matcher = pattern.matcher(original)
-if (!matcher.find()) return
+                    val matcher = pattern.matcher(original)
+                    if (!matcher.find()) return
 
-// There is at least one replacement
-val replaced = matcher.replaceAll(Matcher.quoteReplacement(replaceText))
+                    // There is at least one replacement
+                    val replaced = matcher.replaceAll(Matcher.quoteReplacement(replaceText))
 
-// Count replacements (API < 34)
-var replacementCount = 0
-val countMatcher = pattern.matcher(original)
-while (countMatcher.find()) {
-    replacementCount++
-}
+                    // Count replacements (API < 34)
+                    var replacementCount = 0
+                    val countMatcher = pattern.matcher(original)
+                    while (countMatcher.find()) {
+                        replacementCount++
+                    }
 
-filesChanged++
-replacementsTotal += replacementCount
+                    filesChanged++
+                    replacementsTotal += replacementCount
 
-// Create backup if possible
-try {
-    val parent = file.parentFile
-    val bakName = (file.name ?: "file") + ".bak"
-    parent?.createFile("text/plain", bakName)?.also { bak ->
-        // write bak
-        contentResolver.openOutputStream(bak.uri)?.use { out ->
-            out.write(original.toByteArray(StandardCharsets.UTF_8))
-            out.flush()
-        }
-    }
-} catch (_: Exception) {
-    // ignore backup failure
-}
+                    // Create backup if possible
+                    try {
+                        val parent = file.parentFile
+                        val bakName = (file.name ?: "file") + ".bak"
+                        parent?.createFile("text/plain", bakName)?.also { bak ->
+                            // write bak
+                            contentResolver.openOutputStream(bak.uri)?.use { out ->
+                                out.write(original.toByteArray(StandardCharsets.UTF_8))
+                                out.flush()
+                            }
+                        }
+                    } catch (_: Exception) {
+                        // ignore backup failure
+                    }
 
                     // Write replaced content back
                     contentResolver.openOutputStream(file.uri, "wt")?.use { out ->
@@ -159,18 +159,9 @@ try {
                         out.flush()
                     }
 
-// count replacements roughly by matching again (API < 34)
-val matcher = Pattern.compile(Pattern.quote(replaceText)).matcher(replaced)
-var count = 0
-while (matcher.find()) {
-    count++
-}
-// note: above is approximate; better to count via matcher on original, but keep simple
-filesChanged++
-replacementsTotal += count // теперь учитываем реальное число замен
-withContext(Dispatchers.Main) {
-    tvStatus.text = "Файлы: $filesScanned, Изменено: $filesChanged, Замен: $replacementsTotal"
-}
+                    withContext(Dispatchers.Main) {
+                        tvStatus.text = "Файлы: $filesScanned, Изменено: $filesChanged, Замен: $replacementsTotal"
+                    }
 
                 } catch (_: Exception) {
                     // ignore individual file errors
