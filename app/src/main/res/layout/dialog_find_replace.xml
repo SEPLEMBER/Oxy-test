@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_find_replace"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Заголовок -->
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Найти и заменить"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp" />
+
+    <!-- Поле "Найти" -->
+    <EditText
+        android:id="@+id/etFind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Найти"
+        android:inputType="text"
+        android:padding="8dp" />
+
+    <!-- Поле "Заменить на" -->
+    <EditText
+        android:id="@+id/etReplace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Заменить на"
+        android:inputType="text"
+        android:padding="8dp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Кнопки действий -->
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnFind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Найти" />
+
+        <Button
+            android:id="@+id/btnReplace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Заменить"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Отмена"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+</LinearLayout>
