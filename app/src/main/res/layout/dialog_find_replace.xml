@@ -18,7 +18,7 @@
 
     <!-- Поле "Найти" -->
     <EditText
-        android:id="@+id/etFind"
+        android:id="@+id/et_find"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Найти"
@@ -27,7 +27,7 @@
 
     <!-- Поле "Заменить на" -->
     <EditText
-        android:id="@+id/etReplace"
+        android:id="@+id/et_replace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Заменить на"
@@ -35,34 +35,13 @@
         android:padding="8dp"
         android:layout_marginTop="8dp" />
 
-    <!-- Кнопки действий -->
-    <LinearLayout
-        android:id="@+id/buttonLayout"
-        android:layout_width="match_parent"
+    <!-- Игнорировать регистр -->
+    <CheckBox
+        android:id="@+id/cb_case_insensitive"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="16dp">
+        android:text="Игнорировать регистр"
+        android:layout_marginTop="12dp" />
 
-        <Button
-            android:id="@+id/btnFind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Найти" />
-
-        <Button
-            android:id="@+id/btnReplace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Заменить"
-            android:layout_marginStart="8dp" />
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Отмена"
-            android:layout_marginStart="8dp" />
-
-    </LinearLayout>
+    <!-- (AlertDialog будет рисовать кнопки: Найти / Заменить / Отмена) -->
 </LinearLayout>
