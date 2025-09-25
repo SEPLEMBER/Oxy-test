@@ -121,25 +121,37 @@ class BatchReplaceActivity : AppCompatActivity() {
                         BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8)).use { br -> br.readText() }
                     } ?: return
 
-                    val matcher = pattern.matcher(original)
-                    if (!matcher.find()) return
+                    val pattern = Pattern.compile(Pattern.quote(findText))
+val matcher = pattern.matcher(original)
+if (!matcher.find()) return
 
-                    // There is at least one replacement
-                    val replaced = matcher.replaceAll(java.util.regex.Matcher.quoteReplacement(replaceText))
-                    // Create backup if possible
-                    try {
-                        val parent = file.parentFile
-                        val bakName = (file.name ?: "file") + ".bak"
-                        parent?.createFile("text/plain", bakName)?.also { bak ->
-                            // write bak
-                            contentResolver.openOutputStream(bak.uri)?.use { out ->
-                                out.write(original.toByteArray(StandardCharsets.UTF_8))
-                                out.flush()
-                            }
-                        }
-                    } catch (_: Exception) {
-                        // ignore backup failure
-                    }
+// There is at least one replacement
+val replaced = matcher.replaceAll(Matcher.quoteReplacement(replaceText))
+
+// Count replacements (API < 34)
+var replacementCount = 0
+val countMatcher = pattern.matcher(original)
+while (countMatcher.find()) {
+    replacementCount++
+}
+
+filesChanged++
+replacementsTotal += replacementCount
+
+// Create backup if possible
+try {
+    val parent = file.parentFile
+    val bakName = (file.name ?: "file") + ".bak"
+    parent?.createFile("text/plain", bakName)?.also { bak ->
+        // write bak
+        contentResolver.openOutputStream(bak.uri)?.use { out ->
+            out.write(original.toByteArray(StandardCharsets.UTF_8))
+            out.flush()
+        }
+    }
+} catch (_: Exception) {
+    // ignore backup failure
+}
 
                     // Write replaced content back
                     contentResolver.openOutputStream(file.uri, "wt")?.use { out ->
