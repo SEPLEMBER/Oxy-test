@@ -30,7 +30,7 @@ import java.util.regex.Pattern
  *
  * Behavior:
  * - Choose folder via SAF (OpenDocumentTree)
- * - Search all files recursively for the literal query (case-insensitive optional)
+ * - Search all files recursively for the literal query (case-insensitive, unicode-aware)
  * - Shows results as list of (file displayName, lineNumber, lineText)
  * - Supports cancellation
  */
@@ -47,11 +47,19 @@ class BatchSearchActivity : AppCompatActivity() {
     private var treeUri: Uri? = null
     private var searchJob: Job? = null
 
+    // Launcher for folder picking (SAF)
     private val openTreeLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
         uri?.let {
-            contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            try {
+                // request persistable read+write permissions
+                val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                contentResolver.takePersistableUriPermission(it, flags)
+            } catch (_: SecurityException) {
+                // ignore - still proceed without persistable permission
+            }
             treeUri = it
-            tvStatus.text = "Папка выбрана: ${DocumentFile.fromTreeUri(this, it)?.name ?: it}"
+            val df = DocumentFile.fromTreeUri(this, it)
+            tvStatus.text = "Папка выбрана: ${df?.name ?: it}"
         }
     }
 
@@ -91,17 +99,18 @@ class BatchSearchActivity : AppCompatActivity() {
     }
 
     private fun startSearch(query: String) {
-        // cancel previous
+        // cancel previous search if running
         searchJob?.cancel()
 
         resultsAdapter.clear()
         progressBar.visibility = View.VISIBLE
         tvStatus.text = "Запуск поиска..."
 
+        // literal pattern, case-insensitive + unicode-aware
         val pattern = Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE)
 
         searchJob = lifecycleScope.launch(Dispatchers.IO) {
-            val root = DocumentFile.fromTreeUri(this@BatchSearchActivity, treeUri!!)
+            val root = treeUri?.let { DocumentFile.fromTreeUri(this@BatchSearchActivity, it) }
             if (root == null) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@BatchSearchActivity, "Не удалось открыть папку", Toast.LENGTH_LONG).show()
@@ -116,7 +125,6 @@ class BatchSearchActivity : AppCompatActivity() {
             suspend fun processFile(file: DocumentFile) {
                 if (!file.isFile) return
                 filesScanned++
-                // try to be safe: skip binaries by mime or extension? We'll attempt to read text; ignore exceptions
                 try {
                     contentResolver.openInputStream(file.uri)?.use { stream ->
                         BufferedReader(InputStreamReader(stream, StandardCharsets.UTF_8)).use { br ->
@@ -139,7 +147,7 @@ class BatchSearchActivity : AppCompatActivity() {
                                         tvStatus.text = "Файлы: $filesScanned, Совпадений: $matchesFound"
                                     }
                                 }
-                                yield() // be cooperative, allow cancellation
+                                yield() // cooperative cancellation point
                             }
                         }
                     }
@@ -149,10 +157,14 @@ class BatchSearchActivity : AppCompatActivity() {
             }
 
             suspend fun recurse(folder: DocumentFile) {
-                for (child in folder.listFiles()) {
+                val children = folder.listFiles()
+                for (child in children) {
                     ensureActive() // cancellation check
-                    if (child.isDirectory) recurse(child)
-                    else processFile(child)
+                    if (child.isDirectory) {
+                        recurse(child)
+                    } else {
+                        processFile(child)
+                    }
                 }
             }
 
@@ -176,9 +188,15 @@ class BatchSearchActivity : AppCompatActivity() {
         }
     }
 
-    // Simple adapter classes
-    data class SearchResultItem(val fileDisplayName: String, val fileUri: Uri, val lineNumber: Int, val lineText: String)
+    // Data class for a search result
+    data class SearchResultItem(
+        val fileDisplayName: String,
+        val fileUri: Uri,
+        val lineNumber: Int,
+        val lineText: String
+    )
 
+    // Adapter for RecyclerView
     inner class SearchResultsAdapter : RecyclerView.Adapter<SearchResultsAdapter.VH>() {
         private val items = mutableListOf<SearchResultItem>()
 
@@ -196,13 +214,17 @@ class BatchSearchActivity : AppCompatActivity() {
         override fun getItemCount(): Int = items.size
 
         override fun onBindViewHolder(holder: VH, position: Int) {
-            val it = items[position]
-            holder.tvFile.text = "${it.fileDisplayName} : ${it.lineNumber}"
-            holder.tvLine.text = it.lineText
+            val item = items[position]
+            holder.tvFile.text = "${item.fileDisplayName} : ${item.lineNumber}"
+            holder.tvLine.text = item.lineText
             holder.itemView.setOnClickListener {
-                // Open selected file in MainActivity editor: launch MainActivity with ACTION_VIEW-like intent
-                val intent = Intent(this@BatchSearchActivity, MainActivity::class.java)
-                intent.putExtra("open_uri", it.fileUri.toString())
+                // Open selected file in MainActivity editor:
+                // pass the Uri as a string extra "open_uri"
+                val intent = Intent(this@BatchSearchActivity, MainActivity::class.java).apply {
+                    putExtra("open_uri", item.fileUri.toString())
+                    // optional flags if you want to control activity reuse:
+                    // flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
                 startActivity(intent)
             }
         }
