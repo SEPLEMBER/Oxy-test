@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp" />
+
+    <!-- Основное содержимое: многострочное поле ввода -->
+    <ScrollView
+        android:layout_below="@id/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <EditText
+            android:id="@+id/edittext_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
+            android:gravity="top|start"
+            android:padding="16dp"
+            android:background="@android:color/transparent"
+            android:scrollbars="vertical"
+            android:overScrollMode="ifContentScrolls"
+            android:minLines="20"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"/>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
