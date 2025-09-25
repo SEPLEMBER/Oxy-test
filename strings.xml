@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Название приложения и заголовки -->
+    <string name="app_name">Pawstribe</string>
+    <string name="app_title_prefix">Pawstribe - %1$s</string>
+    <string name="settings_title">Настройки</string>
+    <string name="chat_title">Чат</string>
+
+    <!-- Элементы интерфейса -->
+    <string name="back">Назад</string>
+    <string name="send">Отправить</string>
+    <string name="lock">Заблокировать</string>
+    <string name="trash">Очистить чат</string>
+    <string name="envelope">Сообщения</string>
+    <string name="settings">Настройки</string>
+    <string name="battery">Батарея</string>
+    <string name="charging">Зарядка</string>
+    <string name="info">Информация</string>
+    <string name="time">Время</string>
+    <string name="save_templates">Сохранить шаблоны</string>
+    <string name="clear_cache">Очистить SharedPrefs</string>
+    <string name="templates_hint">Каждый шаблон в новой строке. Формат: триггер=ответ</string>
+    <string name="start_chat">Перейти в чат</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="avatar">Аватар</string>
+    <string name="open_settings">Открыть настройки</string>
+    <string name="user_label">Пользователь</string>
+    <string name="setup">Установить</string>
+    <string name="connecting">Подключение...</string>
+    <string name="choose_template_version">Выберите версию шаблонов:</string> <!-- Просьба бота -->
+    <string name="select_folder_instruction">Выберите папку для сохранения шаблонов</string> <!-- Инструкция -->
+    <string name="select_folder">Выбрать папку</string>
+    <string name="disable_screenshots">Запретить скриншоты</string>
+    <string name="folder_selected">Папка выбрана</string>
+    <string name="screenshots_disabled">Скриншоты запрещены</string>
+    <string name="screenshots_enabled">Скриншоты разрешены</string>
+    <string name="folder_unavailable">Ошибка: папка недоступна</string>
+    <string name="inp_text">Напиши сообщение...</string>
+
+    <string name="trigger_hello">привет</string>
+<string name="trigger_how_are_you">как дела</string>
+<string name="trigger_thanks">спасибо</string>
+<string name="unknown_value">неизвестно</string>
+    
+    <!-- Диалоговые сообщения -->
+    <string name="welcome_message">Добро пожаловать!</string>
+    <string name="typing">печатает...</string>
+
+    <!-- Idle сообщения -->
+    <string name="idle_msg_1">Эй, ты здесь?</string>
+    <string name="idle_msg_2">Что-то тихо стало...</string>
+    <string name="idle_msg_3">Расскажи, о чём думаешь?</string>
+
+    <!-- Ответы по умолчанию -->
+    <string name="default_response_hello">Привет! Чем могу помочь?</string>
+    <string name="default_response_how_are_you">Всё отлично, а у тебя?</string>
+    <string name="default_response_unknown">Не понял запрос. Попробуй другой вариант.</string>
+
+    <!-- Ответы для времени и даты -->
+    <string name="date_response">Сегодня %1$s.</string>
+    <string name="day_response">Сегодня %1$s.</string>
+    <string name="year_response">Сейчас %1$s год.</string>
+    <string name="date_day_response">Сегодня %1$s, %2$s.</string>
+
+    <!-- Антиспам -->
+    <string name="antispam_1">Ты надоел, давай что-то новенького!</string>
+    <string name="antispam_2">Спамить нехорошо, попробуй другой запрос.</string>
+    <string name="antispam_3">Я устал от твоих повторений!</string>
+    <string name="antispam_4">Хватит спамить, придумай что-то интересное.</string>
+    <string name="antispam_5">Эй, не зацикливайся, попробуй другой вопрос!</string>
+    <string name="antispam_6">Повторяешь одно и то же? Давай разнообразие!</string>
+    <string name="antispam_7">Слишком много повторов, я же не робот... ну, почти.</string>
+    <string name="antispam_8">Не спамь, пожалуйста, задай новый вопрос!</string>
+    <string name="antispam_9">Пять раз одно и то же? Попробуй что-то другое.</string>
+    <string name="antispam_10">Я уже ответил, давай новый запрос!</string>
+
+    <!-- Сообщения о батарее -->
+    <string name="battery_urgent_warning">Это не шутки. Поставь на зарядку.</string>
+    <string name="battery_warning_1">Пожалуйста, поставь устройство на зарядку — батарейка почти села.</string>
+    <string name="battery_warning_2">Аккумулятор низкий, лучше подключить зарядку.</string>
+    <string name="battery_warning_3">Осталось немного заряда, поставь телефон на заряд.</string>
+
+    <!-- Сообщения для команд -->
+    <string name="reloading_templates">Перезагружаю шаблоны...</string>
+    <string name="templates_reloaded">Шаблоны перезагружены.</string>
+    <string name="stats_template">Контекст: %1$s. Шаблонов: %2$d. Ключевых ответов: %3$d.</string>
+    <string name="chat_cleared">Чат очищен. Возвращаюсь к началу.</string>
+    <string name="unknown_command">Неизвестная команда: %1$s</string>
+
+    <!-- Сообщения об ошибках -->
+    <string name="toast_folder_not_selected">Папка не выбрана! Открой настройки и выбери папку.</string>
+    <string name="error_loading_ouch">Ошибка загрузки ouch.txt: %1$s</string>
+    <string name="error_loading_timetosleep">Ошибка загрузки timetosleep.txt: %1$s</string>
+    <string name="error_loading_cldsys">Ошибка загрузки cldsys.txt: %1$s</string>
+    <string name="error_reading_file">Ошибка чтения файла: %1$s</string>
+    <string name="error_loading_mascot_metadata">Ошибка загрузки метаданных маскота: %1$s</string>
+    <string name="error_loading_batterycare">Ошибка загрузки batterycare.txt: %1$s</string>
+
+    <!-- Строки, используемые в SetupActivity -->
+    <string name="error_no_permission">Нет прав для доступа к выбранной папке.</string>
+    <string name="error_no_folder_selected">Папка не выбрана. Пожалуйста, укажите папку с шаблонами.</string>
+    <string name="error_folder_unavailable">Указанная папка недоступна или была удалена.</string>
+    <string name="no_supported_files_in_assets">В assets отсутствуют поддерживаемые файлы шаблонов.</string>
+    <string name="files_copied_successfully">Файлы успешно скопированы.</string>
+    <string name="error_copying_files">Ошибка копирования файлов: %1$s</string>
+
+    <!-- Fallback -->
+    <string name="fallback_1">Привет! Чем могу помочь?</string>
+    <string name="fallback_2">Здравствуй!</string>
+    <string name="fallback_3">Всё отлично, а у тебя?</string>
+    <string name="fallback_4">Нормально, как дела?</string>
+
+    <!-- Шаблоны -->
+    <string name="tpl_greeting_1">Привет! Чем могу помочь?</string>
+    <string name="tpl_greeting_2">Здравствуй!</string>
+    <string name="tpl_howareyou_1">Всё отлично, а у тебя?</string>
+    <string name="tpl_howareyou_2">Нормально, как дела?</string>
+    <string name="tpl_thanks_1">Рад, что помог!</string>
+    <string name="tpl_thanks_2">Всегда пожалуйста!</string>
+
+    <!-- Дефолтные ответы -->
+    <string name="dummy_greeting">Привет! Я пока учусь отвечать.</string>
+    <string name="dummy_unknown">Хм... не знаю, что сказать. К такому жизнь меня не готовила.</string>
+
+    <!-- Случайные приветствия для MainActivity -->
+    <string-array name="greetings">
+        <item>Говорящие кибер-звери!</item>
+        <item>Сейчас 2017, инфа 100%!</item>
+        <item>Математику не заказывали?</item>
+        <item>Здесь ничего нет, честно!</item>
+        <item>Запускаем матрицу...</item>
+    </string-array>
+</resources>
