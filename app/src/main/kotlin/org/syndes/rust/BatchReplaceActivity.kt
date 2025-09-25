@@ -147,14 +147,19 @@ class BatchReplaceActivity : AppCompatActivity() {
                         out.flush()
                     }
 
-                    // count replacements roughly by matching again
-                    val count = Pattern.compile(Pattern.quote(replaceText)).matcher(replaced).results().count().toInt()
-                    // note: above is approximate; better to count via matcher on original, but keep simple
-                    filesChanged++
-                    replacementsTotal += 1 // minimal reporting
-                    withContext(Dispatchers.Main) {
-                        tvStatus.text = "Файлы: $filesScanned, Изменено: $filesChanged"
-                    }
+// count replacements roughly by matching again (API < 34)
+val matcher = Pattern.compile(Pattern.quote(replaceText)).matcher(replaced)
+var count = 0
+while (matcher.find()) {
+    count++
+}
+// note: above is approximate; better to count via matcher on original, but keep simple
+filesChanged++
+replacementsTotal += count // теперь учитываем реальное число замен
+withContext(Dispatchers.Main) {
+    tvStatus.text = "Файлы: $filesScanned, Изменено: $filesChanged, Замен: $replacementsTotal"
+}
+
                 } catch (_: Exception) {
                     // ignore individual file errors
                 }
