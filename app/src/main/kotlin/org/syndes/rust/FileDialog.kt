@@ -24,13 +24,19 @@ class FileDialog : ListActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setResult(RESULT_CANCELED, intent)
+
         setContentView(R.layout.file_dialog_main)
         myPath = findViewById(R.id.path)
         mFileName = findViewById(R.id.fdEditTextFile)
-        mFileName.setText(TPStrings.NEW_FILE_TXT)
 
-        val selectionMode = intent.getIntExtra(TPStrings.SELECTION_MODE, SelectionMode.MODE_CREATE)
+        mFileName.setText(TPStrings.NEW_FILE_TXT)
+        val selectionMode = intent.getIntExtra(
+            TPStrings.SELECTION_MODE,
+            SelectionMode.MODE_CREATE
+        )
+
         val layoutCreate = findViewById<LinearLayout>(R.id.fdLinearLayoutCreate)
+
         if (selectionMode == SelectionMode.MODE_OPEN) {
             layoutCreate.visibility = View.GONE
             title = getString(R.string.Open_File)
@@ -45,7 +51,10 @@ class FileDialog : ListActivity() {
         val createButton = findViewById<Button>(R.id.fdButtonCreate)
         createButton.setOnClickListener {
             if (mFileName.text.length > 0) {
-                intent.putExtra(TPStrings.RESULT_PATH, "$currentPath${TPStrings.SLASH}${mFileName.text}")
+                intent.putExtra(
+                    TPStrings.RESULT_PATH,
+                    currentPath + TPStrings.SLASH + mFileName.text
+                )
                 setResult(RESULT_OK, intent)
                 finish()
             }
@@ -55,23 +64,26 @@ class FileDialog : ListActivity() {
         rootPath = Environment.getExternalStorageDirectory().path
         val startPath = settings.getString(TPStrings.START_PATH, rootPath) ?: rootPath
         currentPath = startPath
+
         readDir(startPath)
     }
 
     private fun readDir(dirPath: String) {
         currentPath = dirPath
+
         path = ArrayList()
         mList = ArrayList()
 
         var f = File(currentPath)
         var files = f.listFiles()
-        if (files == null) {
+        if (files == null) { //in case we can not show this
             currentPath = rootPath
             f = File(currentPath)
             files = f.listFiles()
         }
 
         myPath.text = getString(R.string.Location, currentPath)
+
         parentPath = f.parent
 
         try {
@@ -79,10 +91,13 @@ class FileDialog : ListActivity() {
             if (!parentFolder.canRead()) {
                 parentPath = parentFolder.parent
             }
-        } catch (_: Exception) { }
+        } catch (e: Exception) {
+            // ignore
+        }
 
         val dirsMap = TreeMap<String, String>()
         val dirsPathMap = TreeMap<String, String>()
+
         val filesMap = TreeMap<String, String>()
         val filesPathMap = TreeMap<String, String>()
 
@@ -110,19 +125,27 @@ class FileDialog : ListActivity() {
         val fileList = SimpleAdapter(
             this,
             mList,
-            R.layout.file_dialog_row,
-            arrayOf(TPStrings.ITEM_KEY, TPStrings.ITEM_IMAGE),
-            intArrayOf(R.id.fdrowtext, R.id.fdrowimage)
+            R.layout.file_dialog_row, arrayOf(
+                TPStrings.ITEM_KEY,
+                TPStrings.ITEM_IMAGE
+            ),
+            intArrayOf(
+                R.id.fdrowtext,
+                R.id.fdrowimage
+            )
         )
 
+        // Используем системные иконки, чтобы не требовать наличия drawable/ic_*
         for (dir in dirsMap.tailMap(TPStrings.EMPTY).values) {
-            addItem(dir, R.drawable.folder)
+            addItem(dir, android.R.drawable.ic_menu_gallery)
         }
+
         for (file in filesMap.tailMap(TPStrings.EMPTY).values) {
-            addItem(file, R.drawable.file)
+            addItem(file, android.R.drawable.ic_menu_agenda)
         }
 
         fileList.notifyDataSetChanged()
+
         listAdapter = fileList
     }
 
@@ -148,6 +171,7 @@ class FileDialog : ListActivity() {
         } else {
             saveStartPath(currentPath)
             v.isSelected = true
+
             intent.putExtra(TPStrings.RESULT_PATH, file.path)
             setResult(RESULT_OK, intent)
             finish()
@@ -155,14 +179,15 @@ class FileDialog : ListActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        return if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (parentPath != null && currentPath != rootPath) {
                 readDir(parentPath!!)
             } else {
                 return super.onKeyDown(keyCode, event)
             }
-            return true
+            true
+        } else {
+            super.onKeyDown(keyCode, event)
         }
-        return super.onKeyDown(keyCode, event)
     }
 }
