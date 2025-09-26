@@ -1,0 +1,65 @@
+<resources>
+
+    <string-array name="language_names" translatable="false">
+        <item>System</item>
+        <item>English</item>
+        <item>Русский</item>
+        <item>Українська</item>
+        <item>Portuguese</item>
+        <item>Polski</item>
+        <item>Deutsch</item>
+        <item>العربية</item>
+        <item>Espanol</item>
+        <item>Français</item>
+        <item>Italiano</item>
+        <item>Türk</item>
+        <item>中文</item>
+        <item>日本語</item>
+    </string-array>
+
+    <string-array name="language_values" translatable="false">
+        <item></item>
+        <item>en</item>
+        <item>ru</item>
+        <item>uk</item>
+        <item>pt</item>
+        <item>pl</item>
+        <item>de</item>
+        <item>ar</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>tr</item>
+        <item>cn</item>
+        <item>ja</item>
+    </string-array>
+
+    <string-array name="line_delimiter_names" translatable="false">
+        <item>default</item>
+        <item>Unix (LF, \\n, 0A)</item>
+        <item>Windows (CRLF, \\r\\n, 0D0A)</item>
+        <item>MacOS 9 (CR, \\r, 0D)</item>
+    </string-array>
+
+    <string-array name="line_delimiter_values" translatable="false">
+        <item>default</item>
+        <item>unix</item>
+        <item>windows</item>
+        <item>macos</item>
+    </string-array>
+
+
+    <string-array name="color_theme_names" translatable="false">
+        <item>@string/preference_color_theme_auto</item>
+        <item>@string/preference_color_theme_light</item>
+        <item>@string/preference_color_theme_dark</item>
+        <item>@string/preference_color_theme_custom</item>
+    </string-array>
+
+    <string-array name="color_theme_values" translatable="false">
+        <item>auto</item>
+        <item>light</item>
+        <item>dark</item>
+        <item>custom</item>
+    </string-array>
+</resources>
